@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.cluster import KMeans
 
+# Global Vars
+path = './Dataset.csv'
 
-path = '../../Documents/University/Third year/Semester F/Data Science/Assignment4/Dataset.xlsx'
-df =pd.read_excel(path)
+
+if __name__ == '__main__':
+    df = pd.read_csv(path)
+    print(df)
