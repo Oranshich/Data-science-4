@@ -1,6 +1,17 @@
 import pandas as pd
 
 
+def load_dataframe(path):
+    """
+    This Functions is getting a path to excel file
+    and loads it into a pandas Dataframe
+    :param path: the path to the excel file
+    :return: pandas Dataframe
+    """
+    df = pd.read_excel(path)
+    return df
+
+
 def fill_na(dataframe):
     """
     This Functions is getting a pandas Dataframe that might contains na fields
@@ -43,7 +54,7 @@ def group_values_by_year_per_country(dataframe):
     return new_df
 
 
-def pre_processing(dataframe):
+def pre_process(dataframe):
     """
     This Function is getting a dataframe and start the preprocessing step on it
     :param dataframe: the pandas Dataframe to preprocess
