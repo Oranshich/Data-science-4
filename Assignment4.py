@@ -5,4 +5,5 @@ from sklearn.cluster import KMeans
 
 
 path = '../../Documents/University/Third year/Semester F/Data Science/Assignment4/Dataset.xlsx'
-df =pd.read_excel(path)
+df = pd.read_excel(path)
+print(df.dtypes)
