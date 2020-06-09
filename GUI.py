@@ -17,7 +17,6 @@ class Root(Tk):
         self.prep_btn = None
         self.df = None
         self.cluster_btn = None
-        self.isPreprocessed = False
 
         # Create the layouts
         self.create_browse_titles()
@@ -113,7 +112,7 @@ class Root(Tk):
             except:
                 messagebox.showerror("Error", "Something went wrong trying to preprocess the file")
                 return
-            self.isPreprocessed = True
+            self.cluster_btn.config(state="normal")
             messagebox.showinfo("Pre-Process Done", "Preprocessing completed successfully!")
 
     def create_cluster_button(self):
@@ -122,6 +121,7 @@ class Root(Tk):
         """
         self.cluster_btn = ttk.Button(self, text="Cluster", command=self.kmeans_data)
         self.cluster_btn.grid(column=1, row=6, columnspan=3)
+        self.cluster_btn.config(state="disabled")
 
     def kmeans_data(self):
         """
@@ -130,9 +130,7 @@ class Root(Tk):
         then checks if the user inserted numbers in the input values
         and then starting the kmean function as in the instructions
         """
-        if not self.isPreprocessed:
-            messagebox.showerror("Preprocess is missing", "Please Start the preprocess first")
-        elif (not self.cluster_num_txt.get()) or (not self.run_num_txt.get()):
+        if (not self.cluster_num_txt.get()) or (not self.run_num_txt.get()):
             messagebox.showerror("Missing values", "Please insert number of clusters and number of runs")
         else:
             print(self.df)
@@ -152,7 +150,13 @@ class NumberEntry(Entry):
         self.get, self.set = self.var.get, self.var.set
 
     def check(self, *args):
-        if self.get().isdigit() or self.get() == "":
+        if self.get().isdigit():
+            if(int(self.get()) <= 11 and int(self.get()) > 0):
+                # the current value is only digits; allow this
+                self.old_value = self.get()
+            else:
+                self.set(self.old_value)
+        elif  self.get() == "":
             # the current value is only digits; allow this
             self.old_value = self.get()
         else:
