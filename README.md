@@ -1,7 +1,7 @@
 # Data-science-4
 
 ## Authors
-<p>Oran Shcichman 203388426</p>
+<p>Oran Shichman 203388426</p>
 <p>Gal Rosenthal 312585268</p>
 
 # Description
