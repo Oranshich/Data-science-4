@@ -3,6 +3,11 @@ from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
 import PreProccesing as pp
+import matplotlib
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+import ModelCreation as mc
+matplotlib.use("TkAgg")
 
 
 class Root(Tk):
@@ -29,6 +34,8 @@ class Root(Tk):
 
         self.create_preprocess_button()
         self.create_cluster_button()
+
+
 
     def create_browse_titles(self):
         """
@@ -121,7 +128,8 @@ class Root(Tk):
         """
         self.cluster_btn = ttk.Button(self, text="Cluster", command=self.kmeans_data)
         self.cluster_btn.grid(column=1, row=6, columnspan=3)
-        self.cluster_btn.config(state="disabled")
+        # self.cluster_btn.config(state="disabled")
+        self.cluster_btn.config(state="normal")
 
     def kmeans_data(self):
         """
@@ -133,7 +141,15 @@ class Root(Tk):
         if (not self.cluster_num_txt.get()) or (not self.run_num_txt.get()):
             messagebox.showerror("Missing values", "Please insert number of clusters and number of runs")
         else:
-            print(self.df)
+            f = Figure(figsize=(6, 4), dpi=100)
+            X, y_kmeans, kmeans = mc.model(self.df)
+            a = f.add_subplot(111)
+
+            mc.get_plot(X, y_kmeans, kmeans, a)
+
+            canvas = FigureCanvasTkAgg(f, self)
+            canvas.draw()
+            canvas.get_tk_widget().grid(row=7, column=2, columnspan=5)
 
 
 class NumberEntry(Entry):
