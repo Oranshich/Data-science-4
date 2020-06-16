@@ -49,7 +49,7 @@ def group_values_by_year_per_country(dataframe):
     """
     new_df = pd.DataFrame(dataframe)
     new_df = new_df.drop('year', axis=1)
-    new_df = new_df.groupby('country').mean()
+    new_df = new_df.groupby('country', as_index=False).mean()
 
     return new_df
 
