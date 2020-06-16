@@ -150,7 +150,7 @@ class Root(Tk):
             canvas = FigureCanvasTkAgg(f, self)
             canvas.draw()
             canvas.get_tk_widget().grid(row=7, column=2, columnspan=5)
-
+            mc.choropleth(self.df)
 
 class NumberEntry(Entry):
     """

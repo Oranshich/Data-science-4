@@ -3,7 +3,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.text import Text
 from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
+import pandas as pd
+import plotly.express as px
+
 matplotlib.use("TkAgg")
 
 
@@ -22,7 +24,7 @@ def model(pre_proc):
     kmeans = KMeans(n_clusters=3, init='k-means++', max_iter=300, n_init=10, random_state=0)
     y_kmeans = kmeans.fit_predict(pre_proc)
     pre_proc['Cluster'] = y_kmeans
-    print(pre_proc)
+    print(pre_proc.head())
     return X, y_kmeans, kmeans
 
 
@@ -37,3 +39,14 @@ def get_plot(X, y_kmeans, kmeans, figure):
     figure.set_ylabel('Generosity')
 
     return figure
+
+
+def choropleth(pre_proc):
+    codes = pd.read_csv("codes.csv")
+    pre_proc['code'] = codes[pre_proc['country']]
+
+    fig = px.choropleth(pre_proc, locations="code",
+                        color="lifeExp",  # lifeExp is a column of gapminder
+                        hover_name="country",  # column to add to hover information
+                        color_continuous_scale=px.colors.sequential.Plasma)
+    fig.show()
