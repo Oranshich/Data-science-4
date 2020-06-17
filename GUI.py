@@ -2,10 +2,13 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
+from tkinter import PhotoImage
+import os
 import PreProccesing as pp
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+import matplotlib.image as mpimg
 import ModelCreation as mc
 matplotlib.use("TkAgg")
 
@@ -22,6 +25,7 @@ class Root(Tk):
         self.prep_btn = None
         self.df = None
         self.cluster_btn = None
+        self.map_image = None
 
         # Create the layouts
         self.create_browse_titles()
@@ -73,7 +77,7 @@ class Root(Tk):
         """
         Create the browse button
         """
-        self.button = ttk.Button(self, text="Browse A File", command=self.file_dialog)
+        self.button = ttk.Button(self, text="Browse", command=self.file_dialog)
         self.button.grid(column=11, row=1)
 
     def file_dialog(self):
@@ -142,15 +146,25 @@ class Root(Tk):
             messagebox.showerror("Missing values", "Please insert number of clusters and number of runs")
         else:
             f = Figure(figsize=(6, 4), dpi=100)
-            X, y_kmeans, kmeans = mc.model(self.df)
-            a = f.add_subplot(111)
-
-            mc.get_plot(X, y_kmeans, kmeans, a)
+            X, y_kmeans, kmeans = mc.model(self.df, int(self.cluster_num_txt.get()), int(self.run_num_txt.get()))
+            scatter_subplot = f.add_subplot(121)
+            mc.get_plot(X, y_kmeans, kmeans, scatter_subplot, int(self.cluster_num_txt.get()))
 
             canvas = FigureCanvasTkAgg(f, self)
             canvas.draw()
             canvas.get_tk_widget().grid(row=7, column=2, columnspan=5)
-            mc.choropleth(self.df)
+
+            dir_of_file = os.path.dirname(self.browsed_file_txt.get())
+            # path_to_image = mc.choropleth(self.df, dir_of_file)
+
+            # map_canvas = Canvas(self, width=500, height=500)
+            # map_canvas.grid(row=7, column=2)
+            # self.map_image = PhotoImage(file=path_to_image)
+            # map_canvas.create_image(100, 100, image=self.map_image)
+
+            messagebox.showinfo("Clustering Done", "Clustering completed successfully!")
+
+
 
 class NumberEntry(Entry):
     """
