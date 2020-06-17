@@ -5,12 +5,14 @@ from matplotlib.text import Text
 from sklearn.cluster import KMeans
 import pandas as pd
 import plotly.express as px
+import chart_studio.plotly as py
 
 matplotlib.use("TkAgg")
 
 
 def model(pre_proc):
     X = pre_proc.iloc[:, [2, 5]].values
+    kmeansData = pre_proc.iloc[:, 1:15]
     # for i in range(1, 11):
     #     kmeans = KMeans(n_clusters=i, init='k-means++', max_iter=300, n_init=10, random_state=0)
     #     kmeans.fit(X)
@@ -22,7 +24,8 @@ def model(pre_proc):
     # plt.show()
     #
     kmeans = KMeans(n_clusters=3, init='k-means++', max_iter=300, n_init=10, random_state=0)
-    y_kmeans = kmeans.fit_predict(pre_proc)
+    # print(pre_proc.dtypes())
+    y_kmeans = kmeans.fit_predict(kmeansData)
     pre_proc['Cluster'] = y_kmeans
     print(pre_proc.head())
     return X, y_kmeans, kmeans
@@ -41,12 +44,20 @@ def get_plot(X, y_kmeans, kmeans, figure):
     return figure
 
 
-def choropleth(pre_proc):
-    codes = pd.read_csv("codes.csv")
-    pre_proc['code'] = codes[pre_proc['country']]
+def extractCode(country, codes):
+
+    code = codes.loc[codes['Country'] == country]
+    return code['Alpha-3 code'][code['Alpha-3 code'].index[0]]
+
+
+def choropleth(pre_proc, path="."):
+    path = path + "/"
+    codes = pd.read_csv("countries_codes_and_coordinates.csv")
+    #pre_proc['code'] = codes[pre_proc['country']]
+    pre_proc['code'] = pre_proc.apply(lambda row: extractCode(row['country'], codes), axis=1)
 
     fig = px.choropleth(pre_proc, locations="code",
-                        color="lifeExp",  # lifeExp is a column of gapminder
-                        hover_name="country",  # column to add to hover information
-                        color_continuous_scale=px.colors.sequential.Plasma)
-    fig.show()
+                        color="Cluster",
+                        color_continuous_scale=px.colors.DEFAULT_PLOTLY_COLORS)
+    py.sign_in('oransh', 'EN3grDWl8bDjWchtjydW')
+    py.image.save_as(fig, filename=path + "map.png")
