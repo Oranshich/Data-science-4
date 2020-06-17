@@ -20,7 +20,7 @@ class Root(Tk):
 
     def __init__(self):
         super(Root, self).__init__()
-        self.title("Data Science HW 4")
+        self.title("K Means Clustering")
         self.minsize(1024, 600)
         self.prep_btn = None
         self.df = None
@@ -115,16 +115,16 @@ class Root(Tk):
         else it displays a info message box the the preprocess is completed
         """
         if not self.browsed_file_txt.get():
-            messagebox.showerror("File Path is missing", "Please Choose a file first")
+            messagebox.showerror("K Means Clustering", "Please Choose a file first")
         else:
             self.df = pp.load_dataframe(self.browsed_file_txt.get())
             try:
                 self.df = pp.pre_process(self.df)
             except:
-                messagebox.showerror("Error", "Something went wrong trying to preprocess the file")
+                messagebox.showerror("K Means Clustering", "Something went wrong trying to preprocess the file")
                 return
             self.cluster_btn.config(state="normal")
-            messagebox.showinfo("Pre-Process Done", "Preprocessing completed successfully!")
+            messagebox.showinfo("K Means Clustering", "Preprocessing completed successfully!")
 
     def create_cluster_button(self):
         """
@@ -143,7 +143,7 @@ class Root(Tk):
         and then starting the kmean function as in the instructions
         """
         if (not self.cluster_num_txt.get()) or (not self.run_num_txt.get()):
-            messagebox.showerror("Missing values", "Please insert number of clusters and number of runs")
+            messagebox.showerror("K Means Clustering", "Please insert number of clusters and number of runs")
         else:
             try:
                 f = Figure(figsize=(6, 4), dpi=100)
@@ -164,11 +164,14 @@ class Root(Tk):
 
                 map_canvas.create_image(-70, -50, anchor=NW, image=self.map_image)
 
-                messagebox.showinfo("Clustering Done", "Clustering completed successfully!")
+                answer = messagebox.askokcancel("K Means Clustering", "Clustering completed successfully!")
+                if answer:
+                    self.quit()
             except:
-                messagebox.showerror("Clustering Failed", "Something went wrong while trying to do the clustering")
+                messagebox.showerror("K Means Clustering", "Something went wrong while trying to do the clustering")
 
-
+    def quit(self):
+        self.destroy()
 
 class NumberEntry(Entry):
     """
