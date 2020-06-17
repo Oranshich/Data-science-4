@@ -166,7 +166,7 @@ class Root(Tk):
 
                 messagebox.showinfo("Clustering Done", "Clustering completed successfully!")
             except:
-                messagebox.showerror("Clustering Failed", "Something went wrong while trying to clustering")
+                messagebox.showerror("Clustering Failed", "Something went wrong while trying to do the clustering")
 
 
 
