@@ -55,10 +55,10 @@ def choropleth(pre_proc, path="."):
     fig = px.choropleth(pre_proc, locations="code",
                         color="Cluster",
                         color_continuous_scale=px.colors.DEFAULT_PLOTLY_COLORS)
-    py.sign_in('oransh', 'EN3grDWl8bDjWchtjydW')
+    py.sign_in('rosengal', 'BCw4CTeuXUnQP4VOeozY')
     img_path = path + "map.png"
     if os.path.exists(img_path):
         os.remove(img_path)
-    py.image.save_as(fig, filename=img_path)
+    py.image.save_as(fig, filename=img_path, width=600, height=500)
 
     return img_path

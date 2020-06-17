@@ -145,24 +145,28 @@ class Root(Tk):
         if (not self.cluster_num_txt.get()) or (not self.run_num_txt.get()):
             messagebox.showerror("Missing values", "Please insert number of clusters and number of runs")
         else:
-            f = Figure(figsize=(6, 4), dpi=100)
-            X, y_kmeans, kmeans = mc.model(self.df, int(self.cluster_num_txt.get()), int(self.run_num_txt.get()))
-            scatter_subplot = f.add_subplot(121)
-            mc.get_plot(X, y_kmeans, kmeans, scatter_subplot, int(self.cluster_num_txt.get()))
+            try:
+                f = Figure(figsize=(6, 4), dpi=100)
+                X, y_kmeans, kmeans = mc.model(self.df, int(self.cluster_num_txt.get()), int(self.run_num_txt.get()))
+                scatter_subplot = f.add_subplot(111)
+                mc.get_plot(X, y_kmeans, kmeans, scatter_subplot, int(self.cluster_num_txt.get()))
 
-            canvas = FigureCanvasTkAgg(f, self)
-            canvas.draw()
-            canvas.get_tk_widget().grid(row=7, column=2, columnspan=5)
+                canvas = FigureCanvasTkAgg(f, self)
+                canvas.draw()
+                canvas.get_tk_widget().grid(row=7, column=2, columnspan=5)
 
-            dir_of_file = os.path.dirname(self.browsed_file_txt.get())
-            # path_to_image = mc.choropleth(self.df, dir_of_file)
+                dir_of_file = os.path.dirname(self.browsed_file_txt.get())
+                path_to_image = mc.choropleth(self.df, dir_of_file)
 
-            # map_canvas = Canvas(self, width=500, height=500)
-            # map_canvas.grid(row=7, column=2)
-            # self.map_image = PhotoImage(file=path_to_image)
-            # map_canvas.create_image(100, 100, image=self.map_image)
+                map_canvas = Canvas(self, width=550, height=400)
+                map_canvas.grid(row=7, column=1)
+                self.map_image = PhotoImage(file=path_to_image)
 
-            messagebox.showinfo("Clustering Done", "Clustering completed successfully!")
+                map_canvas.create_image(-70, -50, anchor=NW, image=self.map_image)
+
+                messagebox.showinfo("Clustering Done", "Clustering completed successfully!")
+            except:
+                messagebox.showerror("Clustering Failed", "Something went wrong while trying to clustering")
 
 
 
