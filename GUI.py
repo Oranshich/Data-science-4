@@ -60,6 +60,8 @@ class Root(Tk):
         self.run_num_lbl = Label(self, text="Number of runs:")
         self.run_num_lbl.grid(column=0, row=3, pady=10)
         self.run_num_txt = NumberEntry(self, width=25)
+        self.run_num_txt.set_max_val(50)
+        self.run_num_txt.set_min_val(1)
         self.run_num_txt.grid(column=1, row=3, columnspan=2)
 
     def create_clusters_options(self):
@@ -71,6 +73,8 @@ class Root(Tk):
         self.cluster_num_lbl = Label(self, text="Number of clusters k:")
         self.cluster_num_lbl.grid(column=0, row=2, pady=10)
         self.cluster_num_txt = NumberEntry(self, width=25)
+        self.cluster_num_txt.set_max_val(90)
+        self.cluster_num_txt.set_min_val(2)
         self.cluster_num_txt.grid(column=1, row=2, columnspan=2)
 
     def create_browse_button(self):
@@ -184,11 +188,27 @@ class NumberEntry(Entry):
         super(NumberEntry, self).__init__(master, textvariable=self.var, **kwargs)
         self.old_value = ''
         self.var.trace('w', self.check)
+        self.max_val = 11
+        self.min_val = 1
         self.get, self.set = self.var.get, self.var.set
+
+    def set_max_val(self, new_max):
+        try:
+            max_value = int(new_max)
+            self.max_val = max_value
+        except:
+            self.max_val = 11
+
+    def set_min_val(self, new_min):
+        try:
+            min_value = int(new_min)
+            self.min_val = min_value
+        except:
+            self.max_val = 1
 
     def check(self, *args):
         if self.get().isdigit():
-            if(int(self.get()) <= 11 and int(self.get()) > 0):
+            if self.max_val >= int(self.get()) >= self.min_val:
                 # the current value is only digits; allow this
                 self.old_value = self.get()
             else:
