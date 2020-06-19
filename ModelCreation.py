@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib
 import matplotlib.cm as cm
-import matplotlib.pyplot as plt
-from matplotlib.text import Text
 from sklearn.cluster import KMeans
 import pandas as pd
 import plotly.express as px
