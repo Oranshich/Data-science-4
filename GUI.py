@@ -140,7 +140,7 @@ class Root(Tk):
         else:
             try:
                 f = Figure(figsize=(6, 4), dpi=100)
-                X, y_kmeans, kmeans = mc.model(self.df, int(self.cluster_num_txt.get()), int(self.run_num_txt.get()))
+                X, y_kmeans, kmeans = mc.model(self.df, num_of_clusters=int(self.cluster_num_txt.get()), num_of_run=int(self.run_num_txt.get()))
                 scatter_subplot = f.add_subplot(111)
                 mc.get_plot(X, y_kmeans, kmeans, scatter_subplot, int(self.cluster_num_txt.get()))
 
