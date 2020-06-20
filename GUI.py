@@ -73,7 +73,7 @@ class Root(Tk):
         self.cluster_num_lbl = Label(self, text="Number of clusters k:")
         self.cluster_num_lbl.grid(column=0, row=2, pady=10)
         self.cluster_num_txt = NumberEntry(self, width=25)
-        self.cluster_num_txt.set_max_val(90)
+        self.cluster_num_txt.set_max_val(82)
         self.cluster_num_txt.set_min_val(2)
         self.cluster_num_txt.grid(column=1, row=2, columnspan=2)
 
