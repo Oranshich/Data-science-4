@@ -8,7 +8,6 @@ import PreProccesing as pp
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-import matplotlib.image as mpimg
 import ModelCreation as mc
 matplotlib.use("TkAgg")
 
@@ -92,15 +91,6 @@ class Root(Tk):
         (("Excel Files", "*.xlsx"), ("All Files", "*.*")))
         self.browsed_file_txt.delete(0, len(self.browsed_file_txt.get()))
         self.browsed_file_txt.insert(0, filename)
-    #
-    # def get_browsed_path(self):
-    #     return self.browsed_file_txt.get()
-    #
-    # def get_cluster_num(self):
-    #     return self.cluster_num_txt.get()
-    #
-    # def get_run_num(self):
-    #     return self.run_num_txt.get()
 
     def create_preprocess_button(self):
         """
@@ -137,7 +127,6 @@ class Root(Tk):
         self.cluster_btn = ttk.Button(self, text="Cluster", command=self.kmeans_data)
         self.cluster_btn.grid(column=1, row=6, columnspan=3)
         self.cluster_btn.config(state="disabled")
-        # self.cluster_btn.config(state="normal")
 
     def kmeans_data(self):
         """

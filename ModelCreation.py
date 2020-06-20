@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib
 import matplotlib.cm as cm
-import matplotlib.pyplot as plt
-from matplotlib.text import Text
 from sklearn.cluster import KMeans
 import pandas as pd
 import plotly.express as px
@@ -31,8 +29,6 @@ def get_plot(X, y_kmeans, kmeans, figure, num_of_clusters=3):
 
     for i in range(0, num_of_clusters):
         figure.scatter(X[y_kmeans == i, 0], X[y_kmeans == i, 1], s=100, c=colors[i], label='Cluster 1')
-    # figure.scatter(X[y_kmeans == 1, 0], X[y_kmeans == 1, 1], s=100, c='blue', label='Cluster 2')
-    # figure.scatter(X[y_kmeans == 2, 0], X[y_kmeans == 2, 1], s=100, c='green', label='Cluster 3')
     figure.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=300, c='yellow')
     figure.set_title('Generosity as dependent in Social Support attribute')
     figure.set_xlabel('Social support')
