@@ -88,7 +88,7 @@ class Root(Tk):
         """
         This Function opens a filedialog in-order to browse a file in the system
         """
-        filename = filedialog.askopenfilename(initialdir="/", title="Select A File", filetype=
+        filename = filedialog.askopenfilename(initialdir="/", title="K Means Clustering", filetype=
         (("Excel Files", "*.xlsx"), ("All Files", "*.*")))
         self.browsed_file_txt.delete(0, len(self.browsed_file_txt.get()))
         self.browsed_file_txt.insert(0, filename)
