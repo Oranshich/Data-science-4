@@ -136,8 +136,8 @@ class Root(Tk):
         """
         self.cluster_btn = ttk.Button(self, text="Cluster", command=self.kmeans_data)
         self.cluster_btn.grid(column=1, row=6, columnspan=3)
-        # self.cluster_btn.config(state="disabled")
-        self.cluster_btn.config(state="normal")
+        self.cluster_btn.config(state="disabled")
+        # self.cluster_btn.config(state="normal")
 
     def kmeans_data(self):
         """
