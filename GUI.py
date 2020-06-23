@@ -190,6 +190,10 @@ class NumberEntry(Entry):
         self.get, self.set = self.var.get, self.var.set
 
     def set_max_val(self, new_max):
+        """
+        Set the max value to the new_max value
+        :param new_max: the max value to be set
+        """
         try:
             max_value = int(new_max)
             self.max_val = max_value
@@ -197,6 +201,10 @@ class NumberEntry(Entry):
             self.max_val = 11
 
     def set_min_val(self, new_min):
+        """
+        Set the min value to the new_min value
+        :param new_min: the min value to be set
+        """
         try:
             min_value = int(new_min)
             self.min_val = min_value
@@ -204,6 +212,13 @@ class NumberEntry(Entry):
             self.max_val = 1
 
     def check(self, *args):
+        """
+        Check wether or not the value is a digit and if it is between
+        max_value and min_value or if it is an empty String
+
+        if all of the above is true, it sets the value to the new value
+        else doesnt change the value
+        """
         if self.get().isdigit():
             if self.max_val >= int(self.get()) >= self.min_val:
                 # the current value is only digits; allow this
