@@ -9,6 +9,7 @@ import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import ModelCreation as mc
+
 matplotlib.use("TkAgg")
 
 
@@ -37,8 +38,6 @@ class Root(Tk):
 
         self.create_preprocess_button()
         self.create_cluster_button()
-
-
 
     def create_browse_titles(self):
         """
@@ -75,6 +74,12 @@ class Root(Tk):
         self.cluster_num_txt.set_max_val(82)
         self.cluster_num_txt.set_min_val(2)
         self.cluster_num_txt.grid(column=1, row=2, columnspan=2)
+
+    def enable_cluster_button(self):
+        if self.run_num_txt.get() and self.cluster_num_txt.get() and self.df is not None:
+            self.cluster_btn.config(state="normal")
+        else:
+            self.cluster_btn.config(state="disabled")
 
     def create_browse_button(self):
         """
@@ -114,10 +119,10 @@ class Root(Tk):
             self.df = pp.load_dataframe(self.browsed_file_txt.get())
             try:
                 self.df = pp.pre_process(self.df)
+                self.enable_cluster_button()
             except:
                 messagebox.showerror("K Means Clustering", "Something went wrong trying to preprocess the file")
                 return
-            self.cluster_btn.config(state="normal")
             messagebox.showinfo("K Means Clustering", "Preprocessing completed successfully!")
 
     def create_cluster_button(self):
@@ -140,7 +145,8 @@ class Root(Tk):
         else:
             try:
                 f = Figure(figsize=(6, 4), dpi=100)
-                X, y_kmeans, kmeans = mc.model(self.df, num_of_clusters=int(self.cluster_num_txt.get()), num_of_run=int(self.run_num_txt.get()))
+                X, y_kmeans, kmeans = mc.model(self.df, num_of_clusters=int(self.cluster_num_txt.get()),
+                                               num_of_run=int(self.run_num_txt.get()))
                 scatter_subplot = f.add_subplot(111)
                 mc.get_plot(X, y_kmeans, kmeans, scatter_subplot, int(self.cluster_num_txt.get()))
 
@@ -166,12 +172,14 @@ class Root(Tk):
     def quit(self):
         self.destroy()
 
+
 class NumberEntry(Entry):
     """
     This class extends the Entry class of Tkinter
     which represents the input
     this class only accepts numbers and empty strings
     """
+
     def __init__(self, master=None, **kwargs):
         self.var = StringVar()
         super(NumberEntry, self).__init__(master, textvariable=self.var, **kwargs)
@@ -202,9 +210,11 @@ class NumberEntry(Entry):
                 self.old_value = self.get()
             else:
                 self.set(self.old_value)
-        elif  self.get() == "":
+        elif self.get() == "":
             # the current value is only digits; allow this
             self.old_value = self.get()
         else:
             # there's non-digit characters in the input; reject this
             self.set(self.old_value)
+
+        self.master.enable_cluster_button()
